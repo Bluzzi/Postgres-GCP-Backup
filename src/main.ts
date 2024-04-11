@@ -11,11 +11,11 @@ const tempdir = `${cwd()}/temp/`;
 if (!existsSync(tempdir)) mkdirSync(tempdir);
 
 const cron = Cron(env.CRON, async() => {
-  const location = `${cwd()}/temp/${randomUUID()}.tar.gz`;
+  const location = `${cwd()}/temp/${randomUUID()}.backup`;
   const destination = `${env.BACKUP_NAME}.tar.gz`;
 
   logger.info(`create local backup (${location})...`);
-  execSync(`pg_dump ${env.POSTGRES_URL} -F t | gzip > ${location}`);
+  execSync(`pg_dump ${env.POSTGRES_URL} -F c -f ${location}`);
 
   logger.info(`upload into the bucket as "${env.BACKUP_NAME}" name...`);
   await storage.uploadFile(location, destination);
