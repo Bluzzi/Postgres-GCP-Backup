@@ -9,7 +9,7 @@ export const envSchema = z.object({
 
   POSTGRES_URL: z.string().url(),
 
-  CRON: z.string().default("0 */12 * * *"),
+  CRON: z.string().default("0 1,13 * * *"),
 
   RUN_ON_STARTUP: z.coerce.boolean().default(false)
 });
