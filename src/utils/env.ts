@@ -2,9 +2,8 @@ import "dotenv/config";
 import { z } from "zod";
 
 export const envSchema = z.object({
-  GCP_PROJECT_ID: z.string(),
   GCP_BUCKET_NAME: z.string(),
-  GCP_SERVICE_ACCOUNT_JSON: z.string().transform(json => JSON.parse(json) as Record<string, string>),
+  GCP_CREDENTIALS: z.string().transform(json => JSON.parse(json) as Record<string, string>),
 
   BACKUP_NAME: z.string(),
 

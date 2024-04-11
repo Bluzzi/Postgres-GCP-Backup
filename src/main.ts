@@ -8,6 +8,7 @@ import { cwd } from "node:process";
 import { Cron } from "croner";
 
 const tempdir = `${cwd()}/temp/`;
+if (!existsSync(tempdir)) mkdirSync(tempdir);
 
 const cron = Cron(env.CRON, async() => {
   const location = `${cwd()}/temp/${randomUUID()}.tar.gz`;
@@ -24,7 +25,5 @@ const cron = Cron(env.CRON, async() => {
   logger.success("backup created!");
 });
 
-if (!existsSync(tempdir)) mkdirSync(tempdir);
-if (env.RUN_ON_STARTUP) void cron.trigger();
-
 logger.success(`cron ${env.CRON} started`);
+if (env.RUN_ON_STARTUP) void cron.trigger();
