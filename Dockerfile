@@ -4,7 +4,7 @@ FROM node:19
 WORKDIR /usr/src/app
 
 # Install PostgreSQL client:
-RUN apk add --update postgresql-client
+RUN apt-get update && apt-get install -y postgresql-client
 
 # Install deps:
 COPY package*.json ./
