@@ -1,11 +1,13 @@
 import { logger } from "#/utils/logger";
 import { env } from "#/utils/env";
-import { Cron } from "croner";
-import { execSync } from "child_process";
-import { randomUUID } from "crypto";
-import { unlinkSync } from "fs";
 import { bucket } from "#/utils/storage";
-import { cwd } from "process";
+import { execSync } from "node:child_process";
+import { randomUUID } from "node:crypto";
+import { existsSync, mkdirSync, unlinkSync } from "node:fs";
+import { cwd } from "node:process";
+import { Cron } from "croner";
+
+const tempdir = `${cwd()}/temp/`;
 
 const cron = Cron(env.CRON, async() => {
   const location = `${cwd()}/temp/${randomUUID()}.tar.gz`;
@@ -22,6 +24,7 @@ const cron = Cron(env.CRON, async() => {
   logger.success("backup created!");
 });
 
+if (!existsSync(tempdir)) mkdirSync(tempdir);
 if (env.RUN_ON_STARTUP) void cron.trigger();
 
 logger.success(`cron ${env.CRON} started`);
