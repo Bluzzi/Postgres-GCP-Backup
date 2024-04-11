@@ -1,16 +1,24 @@
-FROM node:19
+FROM alpine:3.14 AS build
 
-# Set workdir:
-WORKDIR /usr/src/app
+WORKDIR /root
 
-# Install PostgreSQL client:
-RUN apt-get update && apt-get install -y postgresql-client-15
+RUN apk add --update --no-cache nodejs npm
 
-# Install deps:
 COPY package*.json ./
+COPY tsconfig.json ./
+COPY src ./src
+
 RUN npm install
+RUN npm run build
+RUN npm prune --production
 
-# Copy all files:
-COPY . .
+FROM alpine:3.14
 
-CMD npm run start
+WORKDIR /root
+
+COPY --from=build /root/node_modules ./node_modules
+COPY --from=build /root/dist ./dist
+
+RUN apk add --update --no-cache postgresql-client nodejs npm
+
+ENTRYPOINT npm run start
