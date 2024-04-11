@@ -1,24 +1,22 @@
-FROM alpine:3.14 AS build
+FROM node:19
 
-WORKDIR /root
+# Set workdir:
+WORKDIR /usr/src/app
 
-RUN apk add --update --no-cache nodejs npm
+# Install PostgreSQL client:
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ <CODENAME>-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN apt-get update && apt-get install -y postgresql-client-15
 
+COPY ./path/to/downloaded/postgresql-client-15.deb /tmp/
+
+RUN dpkg -i /tmp/postgresql-client-15.deb && rm /tmp/postgresql-client-15.deb
+
+# Install deps:
 COPY package*.json ./
-COPY tsconfig.json ./
-COPY src ./src
-
 RUN npm install
-RUN npm run build
-RUN npm prune --production
 
-FROM alpine:3.14
+# Copy all files:
+COPY . .
 
-WORKDIR /root
-
-COPY --from=build /root/node_modules ./node_modules
-COPY --from=build /root/dist ./dist
-
-RUN apk add --update --no-cache postgresql-client nodejs npm
-
-ENTRYPOINT npm run start
+CMD npm run start
