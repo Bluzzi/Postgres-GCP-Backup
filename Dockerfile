@@ -4,7 +4,8 @@ FROM node:19
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
     && echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
     && apt-get update \
-    && apt-get install -y postgresql-client-15
+    && apt-get install -y postgresql-client
+#   && apt-get install -y postgresql-client-15
 
 # Set working directory
 WORKDIR /usr/src/app
