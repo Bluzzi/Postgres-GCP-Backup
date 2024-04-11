@@ -3,6 +3,9 @@ FROM node:19
 # Set workdir:
 WORKDIR /usr/src/app
 
+# Install PostgreSQL client:
+RUN apk add --update postgresql-client
+
 # Install deps:
 COPY package*.json ./
 RUN npm install
