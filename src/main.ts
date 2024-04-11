@@ -1,6 +1,6 @@
 import { logger } from "#/utils/logger";
 import { env } from "#/utils/env";
-import { bucket } from "#/utils/storage";
+import { storage } from "#/utils/storage";
 import { execSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, unlinkSync } from "node:fs";
@@ -17,13 +17,8 @@ const cron = Cron(env.CRON, async() => {
   logger.info(`create local backup (${location})...`);
   execSync(`pg_dump ${env.POSTGRES_URL} -F t | gzip > ${location}`);
 
-  try {
-    logger.info(`upload into the bucket as "${env.BACKUP_NAME}" name...`);
-    await bucket.upload(location, { destination });
-  } catch (err) {
-    console.log(err);
-  }
-
+  logger.info(`upload into the bucket as "${env.BACKUP_NAME}" name...`);
+  await storage.uploadFile(location, destination);
 
   logger.info(`delete local backup (${location})...`);
   unlinkSync(location);
