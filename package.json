@@ -1,13 +1,14 @@
 {
   "scripts": {
-    "dev": "npx nodemon --exec node -r @swc-node/register -r tsconfig-paths/register ./src/client.ts dev",
-    "start": "node -r @swc-node/register -r tsconfig-paths/register ./src/client.ts",
+    "dev": "node -r @swc-node/register -r tsconfig-paths/register ./src/main.ts",
+    "start": "node -r @swc-node/register -r tsconfig-paths/register ./src/main.ts",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "ts:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@slack/bolt": "^3.17.1",
+    "@google-cloud/storage": "^7.9.0",
+    "croner": "^8.0.2",
     "dayjs": "^1.11.10",
     "mongodb": "^6.3.0",
     "rustic-error": "^0.2.3",
@@ -25,13 +26,6 @@
     "typescript": "^5.2.2"
   },
   "eslintConfig": {
-    "extends": "@bluzzi",
-    "rules": {
-      "camelcase": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/no-unsafe-argument": "off"
-    }
+    "extends": "@bluzzi"
   }
 }

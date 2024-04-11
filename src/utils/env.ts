@@ -2,10 +2,15 @@ import "dotenv/config";
 import { z } from "zod";
 
 export const envSchema = z.object({
-  SLACK_APP_TOKEN: z.string(),
-  SLACK_BOT_TOKEN: z.string(),
+  GCP_PROJECT_ID: z.string(),
+  GCP_BUCKET_NAME: z.string(),
+  GCP_SERVICE_ACCOUNT_JSON: z.string(),
 
-  MONGODB_URL: z.string().url()
+  POSTGRES_URL: z.string().url(),
+
+  CRON: z.string().default("0 */12 * * *"),
+
+  RUN_ON_STARTUP: z.boolean().default(false)
 });
 
 export const env = envSchema.parse(process.env);

@@ -32,20 +32,20 @@ export const ConsoleBackground = {
 
 class Logger {
 
-  public info(prefix: string, message: string): void {
-    console.log(`[${ConsoleForground.Blue}i${ConsoleEffect.Reset}] ${prefix.toUpperCase()}: ${message}`);
+  public info(message: string): void {
+    console.log(`[${ConsoleForground.Blue}i${ConsoleEffect.Reset}]: ${message}`);
   }
 
-  public success(prefix: string, message: string): void {
-    console.log(`[${ConsoleForground.Green}√${ConsoleEffect.Reset}] ${prefix.toUpperCase()}: ${message}`);
+  public success(message: string): void {
+    console.log(`[${ConsoleForground.Green}√${ConsoleEffect.Reset}]: ${message}`);
   }
 
-  public warn(prefix: string, message: string): void {
-    console.log(`[${ConsoleForground.Yellow}!${ConsoleEffect.Reset}] ${prefix.toUpperCase()}: ${message}`);
+  public warn(message: string): void {
+    console.log(`[${ConsoleForground.Yellow}!${ConsoleEffect.Reset}]: ${message}`);
   }
 
-  public error(prefix: string, message: string): void {
-    console.log(`[${ConsoleForground.Red}×${ConsoleEffect.Reset}] ${prefix.toUpperCase()}: ${message}`);
+  public error(message: string): void {
+    console.log(`[${ConsoleForground.Red}×${ConsoleEffect.Reset}]: ${message}`);
   }
 
 }
