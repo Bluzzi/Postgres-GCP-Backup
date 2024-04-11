@@ -12,12 +12,13 @@ if (!existsSync(tempdir)) mkdirSync(tempdir);
 
 const cron = Cron(env.CRON, async() => {
   const location = `${cwd()}/temp/${randomUUID()}.tar.gz`;
+  const destination = `${env.BACKUP_NAME}.tar.gz`;
 
   logger.info(`create local backup (${location})...`);
   execSync(`pg_dump ${env.POSTGRES_URL} -F t | gzip > ${location}`);
 
   logger.info(`upload into the bucket as "${env.BACKUP_NAME}" name...`);
-  await bucket.upload(location, { destination: env.BACKUP_NAME });
+  await bucket.upload(location, { destination });
 
   logger.info(`delete local backup (${location})...`);
   unlinkSync(location);
