@@ -16,7 +16,7 @@ const cron = Cron(env.CRON, async() => {
   execSync(`pg_dump ${env.POSTGRES_URL} -F t | gzip > ${location}`);
 
   logger.info(`upload into the bucket as "${env.BACKUP_NAME}" name...`);
-  await bucket.upload(env.BACKUP_NAME);
+  await bucket.upload(location, { destination: env.BACKUP_NAME });
 
   logger.info(`delete local backup (${location})...`);
   unlinkSync(location);
